@@ -1,0 +1,16 @@
+streamlit
+numpy
+pandas
+psycopg-binary
+setuptools
+duckduckgo_search
+pypdf
+chromadb
+together
+langgraph
+langchain
+langchain-chroma
+langchain-community
+langchain-together
+ipykernel
+ipywidgets
