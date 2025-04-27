@@ -56,16 +56,16 @@ with chatbot_UI:
         response1 = LLM.invoke(st.session_state.routerLLMInput)
         response1 = str(dict(response1)['content'])
 
-        while response1 != 'NO' and not (response1.startswith('{') and response1.endswith('}')):
-            response1 = LLM.invoke(st.session_state.routerLLMInput)
-            response1 = str(dict(response1)['content'])
-
-        if response1 == "NO":
+        if not (response1.startswith('{') and response1.endswith('}')):
             st.session_state.LLM_input += f"user:\n{userInput}\n\n"
             finalOutput = LLM.invoke(st.session_state.LLM_input)
             finalOutput = dict(finalOutput)['content']
 
         else:
+            while not (response1.startswith('{') and response1.endswith('}')):
+                response1 = LLM.invoke(st.session_state.routerLLMInput)
+                response1 = str(dict(response1)['content'])
+
             response1 = json.loads(response1)
             response1 = response1['params']['query']
 
