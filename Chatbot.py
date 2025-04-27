@@ -26,10 +26,18 @@ if "messages" not in st.session_state:
 
 st.set_page_config(layout='wide')
 
-_, title_col, _ = st.columns([1.75, 3, 1.25])
+st.markdown("<h2 style='text-align: center;'>What\'s on your mind?</h2>", unsafe_allow_html=True)
 
-with title_col:
-    st.title('What\'s on your mind?')
+st.markdown(
+    """
+    <style>
+    [data-testid="stVerticalBlock"] h2 {
+        margin-top: -40px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 with st.sidebar:
     st.title(':red[Llama 4 Scout ]:robot_face:')
@@ -49,7 +57,7 @@ def stream_response():
         time.sleep(0.1)
 
 with chatbot_UI:
-    output_container = st.container(height=400, border=False)
+    output_container = st.container(height=480, border=False)
 
     if userInput := st.chat_input("Chat with Llama 4 Scout"):
         st.session_state.routerLLMInput += f"User:\n{userInput}\n\n"
