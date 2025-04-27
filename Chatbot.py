@@ -1,5 +1,4 @@
 import os
-import re
 import time
 import json
 import warnings
@@ -55,7 +54,11 @@ with chatbot_UI:
     if userInput := st.chat_input("Chat with Llama 4 Scout"):
         st.session_state.routerLLMInput += f"User:\n{userInput}\n\n"
         response1 = LLM.invoke(st.session_state.routerLLMInput)
-        response1 = dict(response1)['content']
+        response1 = str(dict(response1)['content'])
+
+        while response1 != 'NO' and not (response1.startswith('{') and response1.endswith('}')):
+            response1 = LLM.invoke(st.session_state.routerLLMInput)
+            response1 = str(dict(response1)['content'])
 
         if response1 == "NO":
             st.session_state.LLM_input += f"user:\n{userInput}\n\n"
@@ -63,11 +66,7 @@ with chatbot_UI:
             finalOutput = dict(finalOutput)['content']
 
         else:
-            if type(response1) == str:
-                start_idx = response1.index('{')
-                end_idx = response1.rindex('}') + 1
-                response1 = response1[start_idx:end_idx]
-                response1 = json.loads(response1)
+            response1 = json.loads(response1)
             response1 = response1['params']['query']
 
             results = DDGS().text(response1, max_results=5)
@@ -89,8 +88,12 @@ with chatbot_UI:
 
         with output_container:
             for message in st.session_state.messages:
-                with st.chat_message(message["role"]):
-                    st.write(message["content"])
+                if message['role'] in ('user', 'human'):
+                    with st.chat_message(message["role"], avatar='🧑‍💻'):
+                        st.write(message["content"])
+                else:
+                    with st.chat_message(message["role"], avatar='🤖'):
+                        st.write(message["content"])
 
             st.session_state.messages.append({"role": "user", "content": userInput})
 
