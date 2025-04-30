@@ -61,3 +61,23 @@ Summarize the following news articles:
 
     prompt3 = """user:\n{query}\n\ncontext:\n{context}\n\nassistant:\n"""
     return prompt0, prompt1, prompt2, prompt3
+
+def LLMResponse(LLMInputPrompt, LLM, strOutput=True):
+    response = LLM.invoke(LLMInputPrompt)
+    response = dict(response)['content']
+    return str(response) if strOutput else response
+
+def WebSearchToolCallResults(strOutputForWebSearch, maxSearchResults=5):
+    from json import loads
+    from duckduckgo_search import DDGS
+
+    web_search_query = loads(strOutputForWebSearch)['params']['query']
+    searchResults = DDGS().text(web_search_query, max_results=maxSearchResults)
+    URLs = []
+
+    articles = ""
+    for i in range(len(searchResults)):
+        articles += f"{searchResults[i]['body']}\n\n"
+        URLs.append(searchResults[i]['href'])
+
+    return (articles, URLs)
