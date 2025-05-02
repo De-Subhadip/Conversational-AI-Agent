@@ -12,7 +12,7 @@ from langchain_community.document_loaders import TextLoader, PyPDFLoader
 
 warnings.filterwarnings("ignore")
 
-system_message, router_message, summarise_message, context_message = prompts() 
+system_message, router_message, summarise_message = prompts() 
 
 ### Setting up the LLM: ###
 if not os.environ.get("TOGETHER_API_KEY"):

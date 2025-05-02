@@ -59,8 +59,7 @@ Summarize the following news articles:
 {news}
 """
 
-    prompt3 = """user:\n{query}\n\ncontext:\n{context}\n\nassistant:\n"""
-    return prompt0, prompt1, prompt2, prompt3
+    return prompt0, prompt1, prompt2
 
 def LLMResponse(LLMInputPrompt, LLM, strOutput=True):
     response = LLM.invoke(LLMInputPrompt)
