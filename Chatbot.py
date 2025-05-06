@@ -57,7 +57,7 @@ with st.sidebar:
     def timeFragment():
         from datetime import datetime
         currentTime = datetime.now().strftime("%I:%M:%S %p")
-        st.metric(label=":red[**Current Time:**]", value=currentTime)
+        st.metric(label=":red[**Current Time (GMT):**]", value=currentTime)
     timeFragment()
 
     st.divider()
