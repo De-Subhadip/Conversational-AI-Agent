@@ -14,6 +14,9 @@ system_message, queryClassificationPrompt, summarise_message, RAGqueryModificati
 ### Setting up the LLM: ###
 if not os.environ.get("TOGETHER_API_KEY"):
   os.environ["TOGETHER_API_KEY"] = st.secrets['TOGETHER_API_KEY']
+  os.environ["LANGSMITH_TRACING"] = "true"
+  os.environ["LANGSMITH_API_KEY"] = st.secrets['LANGSMITH_API_KEY']
+  os.environ["LANGSMITH_PROJECT"] = "Chatbot"
 
 LLM = ChatTogether(model="meta-llama/Llama-4-Scout-17B-16E-Instruct")
 
